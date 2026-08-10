@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Juliana Cunha Duarte — Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #FAFBFC;
+    --bg-raised: #F1F7F8;
+    --ink: #1E2A32;
+    --ink-dim: #56666E;
+    --ink-faint: #8A979E;
+    --gold: #2CAAB8;
+    --gold-dim: #1F7B85;
+    --sage: #E07A4F;
+    --sage-dim: #B85F39;
+    --line: rgba(30,42,50,0.1);
+    --serif: 'Fraunces', Georgia, serif;
+    --sans: 'IBM Plex Sans', -apple-system, sans-serif;
+    --mono: 'IBM Plex Mono', monospace;
+  }
+  *{ box-sizing: border-box; margin:0; padding:0; }
+  html{ scroll-behavior: smooth; }
+  body{
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap{ max-width: 880px; margin: 0 auto; padding: 0 32px; }
+
+  /* subtle dotted map texture */
+  .map-texture{
+    position: fixed; inset: 0; z-index: 0; pointer-events: none;
+    background-image: radial-gradient(circle, rgba(30,42,50,0.07) 1px, transparent 1px);
+    background-size: 28px 28px;
+    opacity: 0.6;
+  }
+
+  header.hero{
+    position: relative; z-index: 1;
+    padding: 96px 0 72px;
+    border-bottom: 1px solid var(--line);
+  }
+  .eyebrow{
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 20px;
+  }
+  h1{
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: clamp(38px, 6vw, 58px);
+    line-height: 1.08;
+    letter-spacing: -0.01em;
+    max-width: 12ch;
+  }
+  .tagline{
+    margin-top: 22px;
+    font-size: 18px;
+    color: var(--ink-dim);
+    max-width: 46ch;
+    line-height: 1.65;
+  }
+  .meta-row{
+    margin-top: 36px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 28px;
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--ink-faint);
+  }
+  .meta-row a{ color: var(--ink-dim); text-decoration: none; border-bottom: 1px solid var(--ink-faint); padding-bottom: 1px; }
+  .meta-row a:hover{ color: var(--gold); border-color: var(--gold); }
+
+  /* route line + stops */
+  main{ position: relative; z-index: 1; }
+  .route{
+    position: relative;
+    padding-left: 44px;
+  }
+  .route::before{
+    content: "";
+    position: absolute;
+    left: 5px; top: 6px; bottom: 6px;
+    width: 1px;
+    background-image: linear-gradient(var(--gold-dim) 60%, transparent 0%);
+    background-size: 1px 8px;
+    background-repeat: repeat-y;
+    opacity: 0.7;
+  }
+  .stop{
+    position: relative;
+    padding: 64px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .stop:last-child{ border-bottom: none; }
+  .stop::before{
+    content: "";
+    position: absolute;
+    left: -44px; top: 68px;
+    width: 11px; height: 11px;
+    border-radius: 50%;
+    background: var(--bg);
+    border: 2px solid var(--gold);
+  }
+  .stop-label{
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--gold);
+    display: block;
+    margin-bottom: 14px;
+  }
+  .stop h2{
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: clamp(26px, 3.4vw, 34px);
+    letter-spacing: -0.005em;
+    margin-bottom: 6px;
+  }
+  .stop .role{
+    font-size: 14px;
+    color: var(--ink-faint);
+    margin-bottom: 28px;
+  }
+  .tags{
+    display: flex; flex-wrap: wrap; gap: 8px;
+    margin-bottom: 28px;
+  }
+  .tag{
+    font-family: var(--mono);
+    font-size: 11.5px;
+    color: var(--gold-dim);
+    background: rgba(44,170,184,0.09);
+    border: 1px solid rgba(44,170,184,0.25);
+    padding: 5px 10px;
+    border-radius: 3px;
+  }
+  .stop-grid{
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+  .stop p{
+    color: var(--ink-dim);
+    font-size: 15.5px;
+    line-height: 1.75;
+    max-width: 62ch;
+  }
+  .stop p + p{ margin-top: 14px; }
+  .stop strong{ color: var(--ink); font-weight: 500; }
+
+  .shot-strip{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-top: 8px;
+  }
+  .shot{
+    aspect-ratio: 9/16;
+    border: 1px dashed var(--line);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 12px;
+    background: var(--bg-raised);
+  }
+  .shot span{
+    font-family: var(--mono);
+    font-size: 10.5px;
+    color: var(--ink-faint);
+    line-height: 1.5;
+  }
+  .shot-strip.wide .shot{ aspect-ratio: 16/10; }
+
+  .outcome-block{
+    margin-top: 32px;
+    padding: 20px 24px;
+    background: var(--bg-raised);
+    border-left: 2px solid var(--sage);
+    border-radius: 0 8px 8px 0;
+  }
+  .outcome-block .label{
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--sage);
+    margin-bottom: 8px;
+    display: block;
+  }
+  .outcome-block p{ color: var(--ink); font-size: 15px; max-width: none; }
+
+  .process-steps{
+    display: flex; flex-wrap: wrap; gap: 8px;
+    margin: 4px 0 28px;
+    font-family: var(--mono);
+    font-size: 12.5px;
+    color: var(--ink-faint);
+  }
+  .process-steps span:not(.arrow){ color: var(--ink-dim); }
+  .arrow{ color: var(--gold-dim); }
+
+  footer{
+    position: relative; z-index: 1;
+    padding: 80px 0 96px 44px;
+    text-align: left;
+  }
+  footer::before{
+    content: "";
+    position: absolute;
+    left: -39px; top: 84px;
+    width: 11px; height: 11px;
+    border-radius: 50%;
+    background: var(--gold);
+  }
+  .footer-label{
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 14px;
+  }
+  footer h3{
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: clamp(24px, 3vw, 30px);
+    margin-bottom: 16px;
+    max-width: 22ch;
+  }
+  footer p{ color: var(--ink-dim); font-size: 15px; max-width: 50ch; margin-bottom: 22px; }
+  .footer-links{ display: flex; gap: 24px; font-family: var(--mono); font-size: 13px; }
+  .footer-links a{ color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--gold-dim); padding-bottom: 2px; }
+  .footer-links a:hover{ color: var(--gold); border-color: var(--gold); }
+
+  .figma-link{
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 18px;
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--gold-dim);
+    text-decoration: none;
+    border: 1px solid rgba(44,170,184,0.3);
+    background: rgba(44,170,184,0.07);
+    padding: 9px 14px;
+    border-radius: 6px;
+    transition: background 0.15s, border-color 0.15s;
+  }
+  .figma-link:hover{ background: rgba(44,170,184,0.14); border-color: var(--gold); }
+  .figma-link svg{ flex-shrink: 0; }
+
+  @media (min-width: 720px){
+    .stop-grid.split{ grid-template-columns: 1.1fr 0.9fr; align-items: start; }
+  }
+  @media (max-width: 560px){
+    .wrap{ padding: 0 20px; }
+    .route{ padding-left: 30px; }
+    .stop::before{ left: -30px; }
+    footer{ padding-left: 30px; }
+    footer::before{ left: -25px; }
+    .shot-strip{ grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+</head>
+<body>
+
+<div class="map-texture"></div>
+
+<div class="wrap">
+  <header class="hero">
+    <div class="eyebrow">Portfolio — Lisbon, Portugal</div>
+    <h1>Juliana Cunha Duarte</h1>
+    <p class="tagline">Computer engineer with a research-driven approach to interfaces. I map the problem before I write the code — two projects below show that process end to end.</p>
+    <div class="meta-row">
+      <span>MSc, HCI &amp; Software Development — FCUL</span>
+      <a href="https://www.linkedin.com/in/juliana-cunha-duarte-76598128b" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="#" target="_blank" rel="noopener">GitHub</a>
+    </div>
+  </header>
+
+  <main>
+    <div class="route">
+
+      <section class="stop" id="navegante">
+        <span class="stop-label">Stop 01 — UX research &amp; redesign</span>
+        <h2>Navegante</h2>
+        <div class="role">Academic project, UX discipline · Individual work</div>
+        <div class="tags">
+          <span class="tag">Field research</span>
+          <span class="tag">Figma</span>
+          <span class="tag">Prototyping</span>
+          <span class="tag">Public transit</span>
+        </div>
+
+        <div class="process-steps">
+          <span>Field research</span><span class="arrow">→</span>
+          <span>Pain points</span><span class="arrow">→</span>
+          <span>Feature redesign</span><span class="arrow">→</span>
+          <span>Figma prototype</span>
+        </div>
+
+        <div class="stop-grid split">
+          <div>
+            <p>Navegante is the public transit app used daily by thousands of people across Lisbon. Rather than starting from assumptions, I began with <strong>field research</strong> to understand what actually frustrated real riders — confusing navigation, unclear real-time information, friction in everyday tasks like planning a route.</p>
+            <p>Those findings shaped a set of <strong>redesigned features and flows</strong>, which I then built out as a fully interactive <strong>Figma prototype</strong> — covering the core navigation, route planning, and information architecture end to end.</p>
+            <div class="outcome-block">
+              <span class="label">Outcome</span>
+              <p>The redesign never shipped — it was a research project, not a production release. But going through the complete UX cycle, from field interviews to a working prototype, is what it actually taught me: how much a small, ordinary interaction shapes whether a system feels usable.</p>
+            </div>
+            <a class="figma-link" href="https://www.figma.com/design/r5dyGOmg5d38JCo4PyInzT/Prot%C3%B3tipo-Navegante?node-id=0-1&t=ohhajDhgbmyY1soi-1" target="_blank" rel="noopener">
+              <svg width="14" height="14" viewBox="0 0 38 57" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M19 28.5a9.5 9.5 0 1 1 19 0 9.5 9.5 0 0 1-19 0Z" fill="#1ABCFE"/><path d="M0 47.5A9.5 9.5 0 0 1 9.5 38H19v9.5a9.5 9.5 0 1 1-19 0Z" fill="#0ACF83"/><path d="M19 0v19h9.5a9.5 9.5 0 1 0 0-19H19Z" fill="#FF7262"/><path d="M0 9.5A9.5 9.5 0 0 0 9.5 19H19V0H9.5A9.5 9.5 0 0 0 0 9.5Z" fill="#F24E1E"/><path d="M0 28.5A9.5 9.5 0 0 0 9.5 38H19V19H9.5A9.5 9.5 0 0 0 0 28.5Z" fill="#A259FF"/></svg>
+              View Figma prototype (pages 1–2)
+            </a>
+          </div>
+          <div class="shot-strip">
+            <div class="shot"><span>Add screenshot:<br>research / pain points</span></div>
+            <div class="shot"><span>Add screenshot:<br>Figma prototype</span></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="stop" id="wizarding-app">
+        <span class="stop-label">Stop 02 — Mobile development</span>
+        <h2>A wizarding world, mapped onto yours</h2>
+        <div class="role">Mobile Computing coursework · Group project (design + Android development)</div>
+        <div class="tags">
+          <span class="tag">Kotlin</span>
+          <span class="tag">Android</span>
+          <span class="tag">Geolocation</span>
+          <span class="tag">Sensors</span>
+          <span class="tag">Gamification</span>
+        </div>
+
+        <div class="process-steps">
+          <span>Onboarding &amp; identity</span><span class="arrow">→</span>
+          <span>Map exploration</span><span class="arrow">→</span>
+          <span>Spellcasting via motion</span><span class="arrow">→</span>
+          <span>Social layer</span>
+        </div>
+
+        <div class="stop-grid split">
+          <div>
+            <p>A Harry Potter–inspired Android app built to explore what a phone's own sensors can do for an experience, not just what a screen can show. Onboarding sorts each user into a house through a short quiz — like the Sorting Hat — and the interface's colours and identity shift to match.</p>
+            <p>The core loop uses the device's <strong>GPS and location services</strong> to place collectible items on a live map, encouraging players to physically move to reach them. Certain spells are cast by <strong>shaking or gesturing with the phone</strong>, read through the accelerometer — turning a real-world motion into an in-game action. A "Sorcerer's Room" tracks progress and stats, and a social layer lets players add friends, message, and trade items.</p>
+            <div class="outcome-block">
+              <span class="label">Outcome</span>
+              <p>Fully functional, not just a prototype — from onboarding through to a working spell and exploration system. I contributed to both the interaction design (house theming, onboarding flow, the map and inventory UI) and the Kotlin implementation.</p>
+            </div>
+            <a class="figma-link" href="https://www.figma.com/design/0I1Z4wMwKZsbtHbV3uG5LT/Prot%C3%B3tipo-Nuno?node-id=51-313&t=Xd9rsHs3iaeaut0k-1" target="_blank" rel="noopener">
+              <svg width="14" height="14" viewBox="0 0 38 57" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M19 28.5a9.5 9.5 0 1 1 19 0 9.5 9.5 0 0 1-19 0Z" fill="#1ABCFE"/><path d="M0 47.5A9.5 9.5 0 0 1 9.5 38H19v9.5a9.5 9.5 0 1 1-19 0Z" fill="#0ACF83"/><path d="M19 0v19h9.5a9.5 9.5 0 1 0 0-19H19Z" fill="#FF7262"/><path d="M0 9.5A9.5 9.5 0 0 0 9.5 19H19V0H9.5A9.5 9.5 0 0 0 0 9.5Z" fill="#F24E1E"/><path d="M0 28.5A9.5 9.5 0 0 0 9.5 38H19V19H9.5A9.5 9.5 0 0 0 0 28.5Z" fill="#A259FF"/></svg>
+              View Figma prototype (page 2)
+            </a>
+          </div>
+          <div class="shot-strip">
+            <div class="shot"><span>Add screenshot:<br>house sorting / onboarding</span></div>
+            <div class="shot"><span>Add screenshot:<br>map &amp; exploration</span></div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <footer>
+    <div class="footer-label">End of the line</div>
+    <h3>Currently looking for a frontend/product engineering role.</h3>
+    <p>Based in Lisbon, open to remote. If a project like this fits what you're building, I'd like to hear from you.</p>
+    <div class="footer-links">
+      <a href="mailto:youremail@example.com">Email</a>
+      <a href="https://www.linkedin.com/in/juliana-cunha-duarte-76598128b" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="#" target="_blank" rel="noopener">GitHub</a>
+    </div>
+  </footer>
+</div>
+
+</body>
+</html>
