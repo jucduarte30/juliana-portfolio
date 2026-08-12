@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Juliana Cunha Duarte — Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #FAFBFC;
+    --bg-raised: #F1F7F8;
+    --ink: #1E2A32;
+    --ink-dim: #56666E;
+    --ink-faint: #8A979E;
+    --teal: #2CAAB8;
+    --teal-dim: #1F7B85;
+    --coral: #E07A4F;
+    --coral-dim: #B85F39;
+    --line: rgba(30,42,50,0.1);
+    --serif: 'Fraunces', Georgia, serif;
+    --sans: 'IBM Plex Sans', -apple-system, sans-serif;
+    --mono: 'IBM Plex Mono', monospace;
+  }
+  *{ box-sizing: border-box; margin:0; padding:0; }
+  body{
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap{ max-width: 1080px; margin: 0 auto; padding: 0 32px 96px; }
+
+  .map-texture{
+    position: fixed; inset: 0; z-index: 0; pointer-events: none;
+    background-image: radial-gradient(circle, rgba(30,42,50,0.06) 1px, transparent 1px);
+    background-size: 28px 28px;
+    opacity: 0.6;
+  }
+
+  header.hero{
+    position: relative; z-index: 1;
+    padding: 88px 0 56px;
+    border-bottom: 1px solid var(--line);
+  }
+  .eyebrow{
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: 20px;
+  }
+  h1{
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: clamp(36px, 5.5vw, 54px);
+    line-height: 1.08;
+    letter-spacing: -0.01em;
+    max-width: 14ch;
+  }
+  .tagline{
+    margin-top: 20px;
+    font-size: 17px;
+    color: var(--ink-dim);
+    max-width: 52ch;
+    line-height: 1.65;
+  }
+  .meta-row{
+    margin-top: 32px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 28px;
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--ink-faint);
+  }
+  .meta-row a{ color: var(--ink-dim); text-decoration: none; border-bottom: 1px solid var(--ink-faint); padding-bottom: 1px; }
+  .meta-row a:hover{ color: var(--teal); border-color: var(--teal); }
+
+  main{ position: relative; z-index: 1; }
+  .section-label{
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin: 56px 0 24px;
+  }
+
+  .grid{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+  .card{
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 28px;
+    display: flex;
+    flex-direction: column;
+    transition: border-color 0.15s, transform 0.15s;
+  }
+  .card:hover{ border-color: rgba(44,170,184,0.4); }
+  .card.featured{ grid-column: span 2; }
+
+  .card-eyebrow{
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--teal-dim);
+    margin-bottom: 10px;
+  }
+  .card h3{
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: 22px;
+    margin-bottom: 6px;
+    line-height: 1.25;
+  }
+  .card .role{
+    font-size: 13px;
+    color: var(--ink-faint);
+    margin-bottom: 16px;
+  }
+  .card p{
+    color: var(--ink-dim);
+    font-size: 14.5px;
+    line-height: 1.7;
+    flex-grow: 1;
+  }
+  .tags{
+    display: flex; flex-wrap: wrap; gap: 7px;
+    margin: 16px 0 0;
+  }
+  .tag{
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--teal-dim);
+    background: rgba(44,170,184,0.08);
+    border: 1px solid rgba(44,170,184,0.22);
+    padding: 4px 9px;
+    border-radius: 3px;
+  }
+  .tag.alt{
+    color: var(--coral-dim);
+    background: rgba(224,122,79,0.08);
+    border-color: rgba(224,122,79,0.22);
+  }
+
+  .card-link{
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    margin-top: 18px;
+    font-family: var(--mono);
+    font-size: 12.5px;
+    color: var(--teal-dim);
+    text-decoration: none;
+    border: 1px solid rgba(44,170,184,0.3);
+    background: rgba(44,170,184,0.06);
+    padding: 8px 12px;
+    border-radius: 6px;
+    align-self: flex-start;
+    transition: background 0.15s, border-color 0.15s;
+  }
+  .card-link:hover{ background: rgba(44,170,184,0.13); border-color: var(--teal); }
+  .card-link svg{ flex-shrink: 0; }
+
+  .no-link-note{
+    margin-top: 18px;
+    font-family: var(--mono);
+    font-size: 11.5px;
+    color: var(--ink-faint);
+    font-style: italic;
+  }
+
+  .placeholder{
+    border-style: dashed;
+    color: var(--ink-faint);
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    min-height: 200px;
+  }
+  .placeholder span{ font-family: var(--mono); font-size: 12px; }
+
+  footer{
+    margin-top: 72px;
+    padding-top: 40px;
+    border-top: 1px solid var(--line);
+  }
+  .footer-label{
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: 14px;
+  }
+  footer h3{
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: clamp(24px, 3vw, 30px);
+    margin-bottom: 16px;
+    max-width: 26ch;
+  }
+  footer p{ color: var(--ink-dim); font-size: 15px; max-width: 50ch; margin-bottom: 22px; }
+  .footer-links{ display: flex; gap: 24px; font-family: var(--mono); font-size: 13px; }
+  .footer-links a{ color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--teal-dim); padding-bottom: 2px; }
+  .footer-links a:hover{ color: var(--teal); border-color: var(--teal); }
+
+  @media (max-width: 720px){
+    .grid{ grid-template-columns: 1fr; }
+    .card.featured{ grid-column: span 1; }
+    .wrap{ padding: 0 20px 72px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="map-texture"></div>
+
+<div class="wrap">
+  <header class="hero">
+    <div class="eyebrow">Portfolio — Lisbon, Portugal</div>
+    <h1>Juliana Cunha Duarte</h1>
+    <p class="tagline">Computer engineer with a research-driven approach to building things — from distributed systems to interfaces. A few projects that show the range.</p>
+    <div class="meta-row">
+      <span>MSc, HCI &amp; Software Development — FCUL</span>
+      <a href="https://www.linkedin.com/in/juliana-cunha-duarte-76598128b" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="https://github.com/jucduarte30" target="_blank" rel="noopener">GitHub</a>
+    </div>
+  </header>
+
+  <main>
+    <div class="section-label">Projects</div>
+    <div class="grid">
+
+      <div class="card featured">
+        <div class="card-eyebrow">Systems Programming — C</div>
+        <h3>Distributed Key-Value Store with Chain Replication</h3>
+        <div class="role">Distributed Systems &amp; Operating Systems coursework, FCUL</div>
+        <p>A DynamoDB-style key-value store built in C across four progressive phases: core data structures and serialization, a client-server RPC layer using Protocol Buffers, a multi-threaded concurrent server synchronized with mutexes and condition variables, and finally fault-tolerant replication using the Chain Replication model, coordinated through Apache ZooKeeper. A companion Operating Systems project (a multi-process hospital admissions simulator) added shared memory, semaphores, and POSIX signal handling to the same skill set.</p>
+        <div class="tags">
+          <span class="tag">C</span>
+          <span class="tag">Sockets &amp; RPC</span>
+          <span class="tag">Protocol Buffers</span>
+          <span class="tag">pthreads / mutexes</span>
+          <span class="tag">ZooKeeper</span>
+          <span class="tag alt">Shared memory &amp; semaphores</span>
+        </div>
+        <div class="no-link-note">Coursework repository kept private per course academic-integrity policy — happy to walk through the code directly.</div>
+      </div>
+
+      <div class="card">
+        <div class="card-eyebrow">Backend / Cloud</div>
+        <h3>Cloud Computing — Microservices Platform</h3>
+        <div class="role">Cloud Computing coursework, FCUL</div>
+        <p>An immigration-focused platform with country information and a community forum, built as a full cloud-native application in Java over ten project phases: dataset-driven use cases, a REST API defined in OpenAPI, a microservices architecture containerized with Docker, deployment to a GKE Kubernetes cluster with autoscaling (HPA), a CI/CD pipeline, and stress/smoke testing against another team's deployed system.</p>
+        <div class="tags">
+          <span class="tag">Java</span>
+          <span class="tag">Microservices</span>
+          <span class="tag">Docker</span>
+          <span class="tag">Kubernetes (GKE)</span>
+          <span class="tag alt">CI/CD</span>
+          <span class="tag alt">OpenAPI</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-eyebrow">System Design — Reverse Engineering</div>
+        <h3>Spotify — Architecture Blueprint</h3>
+        <div class="role">Web Applications coursework · Group project (2)</div>
+        <p>A non-code architecture blueprint for Spotify's browser app — every architectural decision needed to build it, front-end and back-end, stopping just short of implementation. Followed hard requirements (SPA, everything-as-a-service, microservices, event-driven) across ten stages, from backend services and APIs to frontend components, routing, and a final consolidated blueprint. Structured around user stories, mapping flows like "play a track from search" through services such as Search, Music/Artist Catalog, and Playlist.</p>
+        <div class="tags">
+          <span class="tag">System design</span>
+          <span class="tag">Microservices</span>
+          <span class="tag">Event-driven</span>
+          <span class="tag alt">SPA architecture</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-eyebrow">Mobile — Kotlin / Android</div>
+        <h3>A wizarding world, mapped onto yours</h3>
+        <div class="role">Mobile Computing coursework · Group project</div>
+        <p>A Harry Potter–inspired Android app combining GPS-based exploration with accelerometer-driven spellcasting. Onboarding sorts users into a house through a short quiz, shifting the app's visual identity to match. Fully functional, from onboarding to a working spell and progression system.</p>
+        <div class="tags">
+          <span class="tag">Kotlin</span>
+          <span class="tag">Android</span>
+          <span class="tag">Geolocation</span>
+          <span class="tag">Sensors</span>
+        </div>
+        <a class="card-link" href="https://www.figma.com/design/0I1Z4wMwKZsbtHbV3uG5LT/Prot%C3%B3tipo-Nuno?node-id=51-313&t=Xd9rsHs3iaeaut0k-1" target="_blank" rel="noopener">
+          <svg width="13" height="13" viewBox="0 0 38 57" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M19 28.5a9.5 9.5 0 1 1 19 0 9.5 9.5 0 0 1-19 0Z" fill="#1ABCFE"/><path d="M0 47.5A9.5 9.5 0 0 1 9.5 38H19v9.5a9.5 9.5 0 1 1-19 0Z" fill="#0ACF83"/><path d="M19 0v19h9.5a9.5 9.5 0 1 0 0-19H19Z" fill="#FF7262"/><path d="M0 9.5A9.5 9.5 0 0 0 9.5 19H19V0H9.5A9.5 9.5 0 0 0 0 9.5Z" fill="#F24E1E"/><path d="M0 28.5A9.5 9.5 0 0 0 9.5 38H19V19H9.5A9.5 9.5 0 0 0 0 28.5Z" fill="#A259FF"/></svg>
+          Figma (page 2)
+        </a>
+      </div>
+
+      <div class="card">
+        <div class="card-eyebrow">UX Research &amp; Redesign</div>
+        <h3>Navegante</h3>
+        <div class="role">Academic project, UX discipline · Individual work</div>
+        <p>Field research into real rider frustrations with Lisbon's public transit app, followed by a full redesign of the core navigation and route-planning flows — delivered as a fully interactive Figma prototype covering the complete UX cycle.</p>
+        <div class="tags">
+          <span class="tag">Field research</span>
+          <span class="tag">Figma</span>
+          <span class="tag">Prototyping</span>
+        </div>
+        <a class="card-link" href="https://www.figma.com/design/r5dyGOmg5d38JCo4PyInzT/Prot%C3%B3tipo-Navegante?node-id=0-1&t=ohhajDhgbmyY1soi-1" target="_blank" rel="noopener">
+          <svg width="13" height="13" viewBox="0 0 38 57" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M19 28.5a9.5 9.5 0 1 1 19 0 9.5 9.5 0 0 1-19 0Z" fill="#1ABCFE"/><path d="M0 47.5A9.5 9.5 0 0 1 9.5 38H19v9.5a9.5 9.5 0 1 1-19 0Z" fill="#0ACF83"/><path d="M19 0v19h9.5a9.5 9.5 0 1 0 0-19H19Z" fill="#FF7262"/><path d="M0 9.5A9.5 9.5 0 0 0 9.5 19H19V0H9.5A9.5 9.5 0 0 0 0 9.5Z" fill="#F24E1E"/><path d="M0 28.5A9.5 9.5 0 0 0 9.5 38H19V19H9.5A9.5 9.5 0 0 0 0 28.5Z" fill="#A259FF"/></svg>
+          Figma (pages 1–2)
+        </a>
+      </div>
+
+      <div class="card">
+        <div class="card-eyebrow">Full-Stack — Java / Spring Boot</div>
+        <h3>SoccerNow — Sports League Management</h3>
+        <div class="role">Software Systems Construction coursework · Group project (3)</div>
+        <p>A full sports-league management system for organizing futsal games, teams, and championships — built with a rich JPA domain model, a REST API documented via Swagger, and two separate front ends: a server-side rendered web app for queries/search, and a native JavaFX desktop app for data entry. Handled concurrent requests without data inconsistencies and shipped with automated tests and a Dockerized deployment.</p>
+        <div class="tags">
+          <span class="tag">Java</span>
+          <span class="tag">Spring Boot</span>
+          <span class="tag">JPA / Spring Data</span>
+          <span class="tag">REST + Swagger</span>
+          <span class="tag alt">JavaFX</span>
+          <span class="tag alt">Docker</span>
+        </div>
+        <div class="no-link-note">Coursework repository kept private per course academic-integrity policy — happy to walk through the code directly.</div>
+      </div>
+
+    </div>
+  </main>
+
+  <footer>
+    <div class="footer-label">Get in touch</div>
+    <h3>Currently looking for a software engineering role.</h3>
+    <p>Based in Lisbon, open to remote. If a project like this fits what you're building, I'd like to hear from you.</p>
+    <div class="footer-links">
+      <a href="mailto:youremail@example.com">Email</a>
+      <a href="https://www.linkedin.com/in/juliana-cunha-duarte-76598128b" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="https://github.com/jucduarte30" target="_blank" rel="noopener">GitHub</a>
+    </div>
+  </footer>
+</div>
+
+</body>
+</html>
